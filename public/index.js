@@ -10,11 +10,30 @@ if(!oldMaxScore) oldMaxScore=0;
 let startButton = document.querySelector("#startbutton")
 const maxScoreText = document.querySelector(`.max-score__item`);
 maxScoreText.textContent = oldMaxScore;
-
+const hammer = document.querySelector(`.hammer`)
+hammer.style.transform =`translate(-70%,-18%)`
 
 function randomTime(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 }
+
+let mousePosition ={
+  x:undefined,
+  y:undefined
+}
+window.addEventListener(`mousemove` ,(event)=>{
+   hammer.style.top = event.clientY + "px"
+   hammer.style.left = event.clientX + "px"
+})
+
+window.addEventListener(`keydown`,(e)=>{
+  if(e.key == `s` || e.key == `S`){
+    startButton.click();
+  }
+})
+window.addEventListener(`mousedown` ,function(){
+    rotateHammer();
+})
 
 function randomHole(holes) {
   const idx = Math.floor(Math.random() * holes.length)
@@ -61,7 +80,12 @@ function startGame() {
     this.classList.remove('shaking')
   }, 400)
 }
-
+function rotateHammer(){
+  hammer.classList.add(`rotateHammer`) 
+  setTimeout(()=>
+  hammer.classList.remove(`rotateHammer`),
+  400)
+}
 
 moles.forEach(mole => mole.addEventListener('click', bonk))
 
